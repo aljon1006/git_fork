@@ -37,7 +37,7 @@ class SurveyModel extends Model {
 
 	async createSurvey(name, dojo_location, fave_lang, comment){
 		let insert_survey_query = Mysql.format(`
-				INSERT INTO surveys(surveys.name, surveys.location, surveys.favorite_language, surveys.comment)
+				INSERT INTO surveys(surveys.name, surveys.location, surveys.fav_lang, surveys.comment)
 				VALUES ('${name}', '${dojo_location}',
 				'${fave_lang}', '${comment}');`
 			);
@@ -46,11 +46,23 @@ class SurveyModel extends Model {
 
 	// supply the logic for each function:
 	generateCaptcha(){
-		return ""; 
+		var letters = "abcdefghijklmnopqrstuvwxyz";
+		var temp = "";
+		for(var x = 0 ; x < 7 ; x++) {
+			var random = Math.floor((Math.random()*letters.length)+1);
+			temp = temp + letters.charAt(random);
+		}
+		this.captcha = temp;
+		return temp; 
 	}
 
 	verifyCaptchaInput(input){
-		return ""; 
+		if(input == this.captcha) {
+			return "Success! Captcha input matched.";
+		}
+		else {
+			return "Error! Captcha input doesn't matched.";
+		}
 	}
 }
 

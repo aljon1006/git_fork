@@ -1,7 +1,12 @@
 const Mysql         = require('mysql');
-const Constants     = require("./constants");
 
-var connection      = Mysql.createConnection(Constants.DATABASE);
+var connection      = Mysql.createConnection({
+    "host": "localhost",
+    "user": "root",
+    "password": "",
+    "database": "express",
+    "port": 3308
+});
 
 connection.connect(function(err) {
     if (err) throw err;
